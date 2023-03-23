@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { NConfigProvider, GlobalThemeOverrides} from "naive-ui"
+import type {NConfigProvider, GlobalThemeOverrides} from "naive-ui"
 
 const themeOverrides: GlobalThemeOverrides = {
   common: {
@@ -62,16 +62,16 @@ const themeOverrides: GlobalThemeOverrides = {
   },
   Input: {
     caretColor: "#DDB055FF",
-    textColor: "rgba(255, 255, 255, 1)",
-    colorFocus: "#414958FF",
+    textColor: "#D9D9D9",
+    colorFocus: "rgba(89,107,117,0.9)",
     loadingColor: "#2B303BFF",
     boxShadowFocus: "inset 1px 1px 4px rgba(0, 0, 0, 0.25)",
-    borderFocus: "none",
-    borderHover: "none",
-    border: "none",
+    borderFocus: "5px solid rgba(13, 38, 58, 0.8)",
+    borderHover: "1px solid #0D263A",
+    border: "1px solid #0D263A",
     borderDisabled: "none",
     countTextColor: "rgba(255, 255, 255, 0.52)",
-    color: "#024959",
+    color: "#596B75",
     textDecorationColor: "rgba(255, 255, 255, 0.82)",
     textColorDisabled: "rgba(255, 255, 255, 0.38)",
     groupLabelTextColor: "rgba(255, 255, 255, 0.82)",
@@ -94,6 +94,22 @@ const themeOverrides: GlobalThemeOverrides = {
   Tabs: {
     barColor: "#F2B705",
   },
+  "Slider": {
+    "railColor": "rgba(89, 107, 117, 0.2)",
+    "railColorHover": "rgba(89, 107, 117, 0.2)",
+    "fillColor": "rgba(13, 38, 58, 0.5)",
+    "fillColorHover": "rgba(13, 38, 58, 0.5)",
+    "handleColor": "#0D263AFF",
+    "handleSize": "12px",
+    "indicatorColor": "rgba(172, 170, 171, 1)",
+    "indicatorTextColor": "rgba(13, 38, 58, 1)"
+  },
+  "Drawer": {
+    "color": "rgba(172, 170, 171, 0.9)",
+    "textColor": "#0D263AFF",
+    "titleTextColor": "rgba(13, 38, 58, 0.8)",
+    "headerBorderBottom": "1px solid rgba(13, 38, 58, 0.09)"
+}
 };
 
 </script>
@@ -101,20 +117,27 @@ const themeOverrides: GlobalThemeOverrides = {
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
     <n-message-provider>
-      <router-view />
+      <router-view/>
     </n-message-provider>
   </n-config-provider>
 </template>
 
-<style>
+<style lang="scss">
 body, html, .n-config-provider {
   height: 100%;
 }
+
 #app {
   height: 100%;
   width: 100%;
+  background: $cloud-0-hex;
 }
+
 * {
   box-sizing: border-box;
+  list-style: none;
+  user-select: none;
 }
+
+//
 </style>
