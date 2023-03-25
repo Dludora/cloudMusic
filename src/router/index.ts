@@ -23,6 +23,11 @@ const router = createRouter({
         }
       ]
     },
+    {
+      path: '/card',
+      name: 'card',
+      component: () => import('../views/Cards/MusicCard.vue')
+    },
   ]
 })
 
