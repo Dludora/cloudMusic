@@ -2,6 +2,10 @@
   <main>
     <div class="content-container">
       <div>hello</div>
+      <Card />
+      <Card />
+      <Card />
+      <Card />
       <div></div>
       <div></div>
       <div></div>
@@ -10,8 +14,12 @@
 </template>
 
 <script>
+import Card from "../Cards/MusicCard.vue";
 export default {
-  name: "Browser"
+  name: "Browser",
+  components: {
+    Card
+  }
 }
 </script>
 
