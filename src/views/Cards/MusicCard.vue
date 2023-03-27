@@ -4,18 +4,28 @@
       <div class="cover">
       </div>
       <div class="control" @mouseover="ShowButton" @mouseleave="HideButton">
-        <div class="button button-play" @click="play" v-show="isShow"><svg t="1679729442836" class="icon" viewBox="0 0 1024 1024"
-            version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2770" width="200" height="200">
+        <div class="button button-play" @click="play" v-show="isShow"><svg t="1679729442836" class="icon"
+            viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2770" width="200" height="200">
             <path
               d="M512 97.52381c228.912762 0 414.47619 185.563429 414.47619 414.47619s-185.563429 414.47619-414.47619 414.47619S97.52381 740.912762 97.52381 512 283.087238 97.52381 512 97.52381z m-57.782857 268.190476c-21.942857 0-39.740952 17.798095-39.740953 39.740952v209.13981a39.740952 39.740952 0 0 0 61.196191 33.426285l164.352-105.593904a39.740952 39.740952 0 0 0-0.292571-67.047619l-164.352-103.545905a39.740952 39.740952 0 0 0-21.187048-6.119619z"
               p-id="2771" fill="#515151"></path>
-          </svg></div>
-        <div class="button button-share" v-show="isShow"><svg t="1679730010240" class="icon" viewBox="0 0 1024 1024"
-            version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4842" width="200" height="200">
-            <path
-              d="M512 56.889344c251.35104 0 455.110656 203.759616 455.110656 455.110656S763.35104 967.110656 512 967.110656 56.889344 763.35104 56.889344 512 260.64896 56.889344 512 56.889344z m0 398.221312c-31.418368 0-56.889344 25.470976-56.889344 56.889344s25.470976 56.889344 56.889344 56.889344 56.889344-25.470976 56.889344-56.889344-25.470976-56.889344-56.889344-56.889344z m-227.555328 0c-31.419392 0-56.889344 25.470976-56.889344 56.889344s25.469952 56.889344 56.889344 56.889344c31.418368 0 56.88832-25.470976 56.88832-56.889344s-25.469952-56.889344-56.88832-56.889344z m455.110656 0c-31.418368 0-56.88832 25.470976-56.88832 56.889344s25.469952 56.889344 56.88832 56.889344c31.419392 0 56.889344-25.470976 56.889344-56.889344s-25.469952-56.889344-56.889344-56.889344z"
-              fill="#515151" p-id="4843"></path>
-          </svg></div>
+          </svg>
+        </div>
+        <el-dropdown style="position: unset;" trigger="click" placement="top" >
+          <div class="button button-share" v-show="isShow"><svg t="1679730010240" class="icon" viewBox="0 0 1024 1024"
+              version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4842" width="200" height="200">
+              <path
+                d="M512 56.889344c251.35104 0 455.110656 203.759616 455.110656 455.110656S763.35104 967.110656 512 967.110656 56.889344 763.35104 56.889344 512 260.64896 56.889344 512 56.889344z m0 398.221312c-31.418368 0-56.889344 25.470976-56.889344 56.889344s25.470976 56.889344 56.889344 56.889344 56.889344-25.470976 56.889344-56.889344-25.470976-56.889344-56.889344-56.889344z m-227.555328 0c-31.419392 0-56.889344 25.470976-56.889344 56.889344s25.469952 56.889344 56.889344 56.889344c31.418368 0 56.88832-25.470976 56.88832-56.889344s-25.469952-56.889344-56.88832-56.889344z m455.110656 0c-31.418368 0-56.88832 25.470976-56.88832 56.889344s25.469952 56.889344 56.88832 56.889344c31.419392 0 56.889344-25.470976 56.889344-56.889344s-25.469952-56.889344-56.889344-56.889344z"
+                fill="#515151" p-id="4843"></path>
+            </svg>
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item :icon="Star">收藏</el-dropdown-item>
+              <el-dropdown-item :icon="Share">分享</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
       <div><span class="text-hover">Hello</span></div>
       <div><span class="text-hover">RADWIMPS</span></div>
@@ -24,25 +34,29 @@
 </template>
 
 <script setup lang="ts">
-import {ref, type Ref, reactive} from 'vue';
+import { ref, type Ref, reactive } from 'vue';
+import {
+  Star,
+  Share
+} from '@element-plus/icons-vue'
 
 let isShow = ref(false);
 
-function ShowButton (event : Event) {
+function ShowButton(event: Event) {
   console.log('show');
   // document.querySelector('.button-play')?.classList.remove('hide');
   // document.querySelector('.button-share')?.classList.remove('hide');
   isShow.value = true;
 }
 
-function HideButton (event : Event) {
+function HideButton(event: Event) {
   console.log('hide');
   // document.querySelector('.button-play')?.classList.add('hide');
   // document.querySelector('.button-share')?.classList.add('hide');
   isShow.value = false;
 }
 
-function play(event : Event) {
+function play(event: Event) {
   console.log('play');
 }
 </script>
@@ -118,7 +132,7 @@ function play(event : Event) {
 .button-share {
   position: absolute;
   right: 5px;
-  bottom: 0;
+  bottom: 5px;
   z-index: 3;
 }
 
