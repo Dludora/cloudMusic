@@ -1,21 +1,24 @@
 <template>
-  <div class="play-list">
+  <div class="playList">
     <div class="introduction">
       <!-- list-cover: 图片
-           introduction-info:介绍
+           introductionInfo:介绍
            more:更多-->
-      <div class="list-cover">
-        <n-image width="100" :src="playListInfo.cover" />
+      <div class="listCover">
+        <n-image width="280" :src="playListInfo.cover" />
       </div>
-      <div class="introduction-info">
+      <div class="introductionInfo">
         <div class="play-list-title">
           {{ playListInfo.title }}
         </div>
         <div class="play-list-author">
-          {{ playListInfo.author }}
+          <span class="author" >{{ playListInfo.author }}</span>
+        </div>
+        <div class="play-list-type">
+          <span>{{ playListInfo.type }}&nbsp;<b>·</b>&nbsp;{{ playListInfo.time }}</span>
         </div>
         <div class="play-list-introduction">
-          <n-ellipsis :line-clamp="2">
+          <n-ellipsis :line-clamp="3">
             {{ playListInfo.introduction }}
           </n-ellipsis>
         </div>
@@ -38,7 +41,6 @@
       </div>
     </div>
     <div class="song-list">
-      <n-data-table :columns="columns" :data="playListInfo.songList" :pagination="false" :bordered="false" />
     </div>
     <div class="about"></div>
   </div>
@@ -111,19 +113,9 @@ const columns = createColumns({
 const playListInfo = {
   title: "坂本龙一的代表作",
   author: "takune",
-  introduction: "Ryuichi Sakamoto, affectionately known as \"The Professor,\" is a respected and beloved Japanese music artist. \
-  He graduated from the Tokyo University of the Arts. Trained as a student in serious music composition, he has a combination of \
-  talent and ability, and he is at ease in many fields such as classical, jazz, electronic, ethnic and popular music. As the Yellow \
-  Magic Orchestra (YMO) gained influence overseas, Ryuichi Sakamoto became famous as a member of the orchestra. The score for director \
-  Nagisa Oshima's Merry Christmas, Mr. Lawrence was the beginning of Sakamoto's film composing career, and the Oscar-winning score \
-  for The Last Emperor made him a world-renowned musician at a young age.In the spirit of artistic exploration, Ryuichi Sakamoto \
-  has never shied away from speaking out in the commercial realm, allowing his music to express the purity and simplicity of nature,\
-  and allowing his ears and body to evolve with the urban culture. Since he was a student, he has seen the limitations of western \
-  music in expression. He prefers folk music and electronic music, but he has not changed his original intention after many wonderful\
-  and successful experiences: collecting the weak biological potentials of trees, recording the sounds of the ice sea in the Arctic, \
-  and exploring the limits of music creation with a constant attitude of breaking rules. At the beginning of 2023, he released his last \
-  album, \"12\", which recorded his years of struggle against cancer. He passed away in March, leaving music fans all over the world with classic \
-  works that cross the boundaries of styles and cultures, and countless moving memories.",
+  type: "日语流行",
+  time: "2023",
+  introduction: "Ryuichi Sakamoto, affectionately known as \"The Professor,\" is a respected and beloved Japanese music artist. He graduated from the Tokyo University of the Arts. ",
   cover: "https://lightmeter30.github.io/img/avatar.jpg",
   songList: [
     {
@@ -145,25 +137,84 @@ function handleSelect(key: string | number) {
 }
 </script>
 <style scoped lang="scss">
-.play-list {}
+.playList {
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
+}
 
-.introduction {}
+.introduction {
+  position: relative;
+  height: auto;
+  // width: 80%;
+}
 
-.list-cover {}
+.listCover {
+  display: inline-block;
+  height: 300px;
+  margin-right: 25px;
+}
 
-.introduction-info {}
+.introductionInfo {
+  display: inline-block;
+  max-width: 25%;
+  position: relative;
+  bottom: 50px;
+}
 
-.play-list-title {}
+.play-list-title {
+  font-size: 25px;
+}
 
-.play-list-author {}
+.play-list-author {
+  font-size: 18px;
+}
 
-.play-list-introduction {}
+.play-list-type {
+  margin-bottom: 15px;
+}
+
+.play-list-type span {
+  font-size: 15px;
+}
+
+.author {
+  cursor: pointer;
+}
+
+.author:hover {
+  text-decoration: underline;
+}
+
+
+.play-list-introduction {
+  line-height: 15px;
+  font-size: 13px;
+}
 
 .play-button {}
 
-.more {}
+.more {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
 
-.song-list {}
+.song-list {
+  height: auto;
+  max-width: 800px;
+}
 
 .about {}
+
+.icon {
+  height: 35px;
+  width: 35px;
+  cursor: pointer;
+}
+
+.icon:hover {
+  opacity: 0.8;
+}
 </style>
