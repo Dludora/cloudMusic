@@ -167,6 +167,7 @@ const options = [
 ]
 
 const showList: Ref<boolean> = ref(false)
+
 </script>
 <style scoped lang="scss">
 .sidebar {
@@ -236,7 +237,7 @@ const showList: Ref<boolean> = ref(false)
   position: relative;
   margin-left: 260px;
   width: calc(100% - 260px);
-  background-color: $cloud-1-hex;
+  background-color: $cloud-0-hex;
 
   display: flex;
   flex-direction: column;
@@ -247,7 +248,7 @@ const showList: Ref<boolean> = ref(false)
   .player-bar {
     position: fixed;
     top: 0;
-    width: 100%;
+    width: calc(100% - 260px);
     margin: 0 auto;
     height: 54px;
     background-color: rgba(217, 217, 217, 0.9);
@@ -255,7 +256,8 @@ const showList: Ref<boolean> = ref(false)
 
     display: flex;
     align-items: center;
-    z-index: 1;
+    justify-content: center;
+    z-index: 101;
 
     .wrapper {
       display: flex;
@@ -386,11 +388,22 @@ const showList: Ref<boolean> = ref(false)
     }
   }
 
-  .n-scrollbar {
-    max-height: calc(100% - 54px);
+  :deep(.n-scrollbar) {
+    max-height: 100%;
 
-    .content {
-      padding-top: 54px;
+    .n-scrollbar-content {
+      height: 100%;
+      min-height: 100%;
+
+
+      .content {
+        padding: calc(54px + 1rem) 3rem 0;
+        margin: 0 auto;
+        max-width: 1680px;
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
     }
   }
 }
