@@ -20,13 +20,18 @@ const router = createRouter({
           path: 'broswer',
           name: 'broswer',
           component: () => import('../views/Browsers/Browser.vue')
+        },
+        {
+          path: 'room',
+          name: 'room',
+          component: () => import('../views/Browsers/Room.vue')
         }
       ]
     },
     {
       path: '/card',
       name: 'card',
-      component: () => import('../views/Cards/MusicCard.vue')
+      component: () => import('../components/Cards/MusicCard.vue')
     },
   ]
 })
