@@ -1,9 +1,9 @@
 <template>
   <div class="SongList">
     <div class="SongHead">
-      <div class="title">歌曲</div>
-      <div class="author">艺人</div>
-      <div class="album">专辑</div>
+      <div class="title"><b>歌曲</b></div>
+      <div class="author"><b>艺人</b></div>
+      <div class="album"><b>专辑</b></div>
     </div>
     <div class="SongLine" v-for="(item, index) in musicListInfo" :id="'line' + item.id">
       <div class="title">

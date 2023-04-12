@@ -45,7 +45,10 @@
       <div class="song-list">
         <List :music-list-info="playListInfo.songList" />
       </div>
-      <div class="about"></div>
+      <div class="about">
+        <h2>推荐歌单</h2>
+        待完成
+      </div>
     </div>
   </main>
 </template>
