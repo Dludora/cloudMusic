@@ -1,114 +1,66 @@
 <template>
-  <div class="playList">
-    <div class="introduction">
-      <!-- list-cover: 图片
+  <main>
+    <div class="playList">
+      <div class="introduction">
+        <!-- list-cover: 图片
            introductionInfo:介绍
            more:更多-->
-      <div class="listCover">
-        <n-image width="280" :src="playListInfo.cover" />
-      </div>
-      <div class="introductionInfo">
-        <div class="play-list-title">
-          {{ playListInfo.title }}
+        <div class="listCover">
+          <img :src="playListInfo.cover" />
         </div>
-        <div class="play-list-author">
-          <span class="author" >{{ playListInfo.author }}</span>
-        </div>
-        <div class="play-list-type">
-          <span>{{ playListInfo.type }}&nbsp;<b>·</b>&nbsp;{{ playListInfo.time }}</span>
-        </div>
-        <div class="play-list-introduction">
-          <n-ellipsis :line-clamp="3">
-            {{ playListInfo.introduction }}
-          </n-ellipsis>
-        </div>
-        <div class="play-button">
-          <n-button type="primary">
-            播放
-          </n-button>
-        </div>
-      </div>
-      <div class="more">
-        <n-dropdown trigger="hover" :options="options" @select="handleSelect">
-          <div><svg t="1679730010240" class="icon" viewBox="0 0 1024 1024" version="1.1"
-              xmlns="http://www.w3.org/2000/svg" p-id="4842" width="200" height="200">
-              <path
-                d="M512 56.889344c251.35104 0 455.110656 203.759616 455.110656 455.110656S763.35104 967.110656 512 967.110656 56.889344 763.35104 56.889344 512 260.64896 56.889344 512 56.889344z m0 398.221312c-31.418368 0-56.889344 25.470976-56.889344 56.889344s25.470976 56.889344 56.889344 56.889344 56.889344-25.470976 56.889344-56.889344-25.470976-56.889344-56.889344-56.889344z m-227.555328 0c-31.419392 0-56.889344 25.470976-56.889344 56.889344s25.469952 56.889344 56.889344 56.889344c31.418368 0 56.88832-25.470976 56.88832-56.889344s-25.469952-56.889344-56.88832-56.889344z m455.110656 0c-31.418368 0-56.88832 25.470976-56.88832 56.889344s25.469952 56.889344 56.88832 56.889344c31.419392 0 56.889344-25.470976 56.889344-56.889344s-25.469952-56.889344-56.889344-56.889344z"
-                fill="#515151" p-id="4843"></path>
-            </svg>
+        <div class="introductionInfo">
+          <div class="play-list-title">
+            {{ playListInfo.title }}
           </div>
-        </n-dropdown>
+          <div class="play-list-author">
+            <span class="author">{{ playListInfo.author }}</span>
+          </div>
+          <div class="play-list-type">
+            <span>{{ playListInfo.type }}&nbsp;<b>·</b>&nbsp;{{ playListInfo.time }}</span>
+          </div>
+          <div class="play-list-introduction">
+            <n-ellipsis :tooltip="false" :line-clamp="3">
+              {{ playListInfo.introduction }}
+            </n-ellipsis>
+          </div>
+          <div class="play-button">
+            <n-button @click="playAll()" >
+              <template #icon>
+                <n-icon>
+                  <Play />
+                </n-icon>
+              </template>
+              播放
+            </n-button>
+          </div>
+        </div>
+        <div class="more">
+          <n-dropdown trigger="hover" :options="options">
+            <n-icon size="30">
+              <EllipsisHorizontal />
+            </n-icon>
+          </n-dropdown>
+        </div>
       </div>
+      <div class="song-list">
+        <List :music-list-info="playListInfo.songList" />
+      </div>
+      <div class="about"></div>
     </div>
-    <div class="song-list">
-    </div>
-    <div class="about"></div>
-  </div>
+  </main>
 </template>
 <script setup lang="ts">
-import { h } from 'vue'
-import { NButton, useMessage } from 'naive-ui'
-import type { DataTableColumns } from 'naive-ui'
-type Song = {
-  name: string
-  author: string
-  album: string
-  time: string
-}
-const message = useMessage();
+import { EllipsisHorizontal, Play } from "@vicons/ionicons5"
+import { NButton } from 'naive-ui'
+import List from "@/components/List/SongList.vue";
+
 const options = [
   {
     label: '分享',
     key: "share"
   }
 ];
-const createColumns = ({
-  play
-}: {
-  play: (row: Song) => void
-}): DataTableColumns<Song> => {
-  return [
-    {
-      title: '歌曲',
-      key: 'name',
-    },
-    {
-      title: '艺人',
-      key: 'author',
-    },
-    {
-      title: '专辑',
-      key: 'album',
-    },
-    {
-      title: '时间',
-      key: 'time',
-    },
-    {
-      title: 'Action',
-      key: 'actions',
-      render(row) {
-        return h(
-          NButton,
-          {
-            strong: true,
-            tertiary: true,
-            size: 'small',
-            onClick: () => play(row)
-          },
-          { default: () => 'Play' }
-        )
-      }
-    },
 
-  ]
-}
-
-const columns = createColumns({
-  play(row: Song) {
-    message.info(`play ${row.name}`);
-  }
-});
 
 const playListInfo = {
   title: "坂本龙一的代表作",
@@ -119,102 +71,135 @@ const playListInfo = {
   cover: "https://lightmeter30.github.io/img/avatar.jpg",
   songList: [
     {
-      name: "カナタハルカ",
+      title: "カナタハルカ",
       author: "RADWIMPS",
       album: "すずめの戸締まり",
-      time: "1:08"
+      id: 1,
     },
-    { name: "残酷な天使のテーゼ", author: "高橋洋子 (たかはし ようこ)", album: "〜refrain〜", time: "4:03" },
-    { name: "残酷な天使のテーゼ", author: "高橋洋子 (たかはし ようこ)", album: "〜refrain〜", time: "5:03" },
-    { name: "残酷な天使のテーゼ", author: "高橋洋子 (たかはし ようこ)", album: "〜refrain〜", time: "3:03" },
-    { name: "残酷な天使のテーゼ", author: "高橋洋子 (たかはし ようこ)", album: "〜refrain〜", time: "12:03" },
+    { title: "残酷な天使のテーゼ", author: "高橋洋子 (たかはし ようこ)", album: "〜refrain〜", id: 2 },
+    { title: "残酷な天使のテーゼ", author: "高橋洋子 (たかはし ようこ)", album: "〜refrain〜", id: 3 },
+    { title: "残酷な天使のテーゼ", author: "高橋洋子 (たかはし ようこ)", album: "〜refrain〜", id: 4 },
+    { title: "残酷な天使のテーゼ", author: "高橋洋子 (たかはし ようこ)", album: "〜refrain〜", id: 5 },
   ],
 
 };
 
-function handleSelect(key: string | number) {
-  message.info(String(key))
+function playAll() {
+  console.log("PlayAll");
 }
+
 </script>
 <style scoped lang="scss">
-.playList {
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-  width: 100%;
-}
+main {
+  min-height: inherit;
+  color: $cloud-2-hex;
 
-.introduction {
-  position: relative;
-  height: auto;
-  // width: 80%;
-}
+  .playList {
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 100%;
 
-.listCover {
-  display: inline-block;
-  height: 300px;
-  margin-right: 25px;
-}
+    .introduction {
+      position: relative;
+      height: auto;
+      // width: 80%;
 
-.introductionInfo {
-  display: inline-block;
-  max-width: 25%;
-  position: relative;
-  bottom: 50px;
-}
+      .listCover {
+        display: inline-block;
+        height: 300px;
+        width: 300px;
+        margin-right: 50px;
 
-.play-list-title {
-  font-size: 25px;
-}
+        img {
+          width: 100%;
+          height: 100%;
+          object-position: center;
+          object-fit: cover;
+          border-radius: 15px;
+        }
+      }
 
-.play-list-author {
-  font-size: 18px;
-}
+      .introductionInfo {
+        display: inline-block;
+        max-width: 40%;
+        position: relative;
+        bottom: 50px;
 
-.play-list-type {
-  margin-bottom: 15px;
-}
+        .play-list-title {
+          font-size: 25px;
+        }
 
-.play-list-type span {
-  font-size: 15px;
-}
+        .play-list-author {
+          font-size: 18px;
+        }
 
-.author {
-  cursor: pointer;
-}
+        .play-list-type {
+          margin-bottom: 5px;
 
-.author:hover {
-  text-decoration: underline;
-}
+          span {
+            font-size: 15px;
+          }
+        }
 
 
-.play-list-introduction {
-  line-height: 15px;
-  font-size: 13px;
-}
 
-.play-button {}
+        .author {
+          cursor: pointer;
 
-.more {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-}
+          &:hover {
+            text-decoration: underline;
+          }
 
-.song-list {
-  height: auto;
-  max-width: 800px;
-}
+        }
 
-.about {}
+        .play-list-introduction {
+          line-height: 15px;
+          font-size: 13px;
+        }
 
-.icon {
-  height: 35px;
-  width: 35px;
-  cursor: pointer;
-}
+        .play-button {
+          position: relative;
+          top: 15px;
 
-.icon:hover {
-  opacity: 0.8;
+          .n-button {
+            background-color: $cloud-2-hex;
+
+            &:hover {
+              color: $cloud-3-hex;
+            }
+          }
+        }
+      }
+
+      .more {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        cursor: pointer;
+
+        .n-icon {
+          color: $cloud-0-hex;
+          background-color: $cloud-2-hex;
+          border-radius: 50%;
+
+
+
+          &:hover {
+            color: $cloud-3-hex;
+            background-color: $cloud-1-hex;
+          }
+        }
+      }
+    }
+
+    .song-list {
+      height: auto;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .about {}
+  }
 }
 </style>
