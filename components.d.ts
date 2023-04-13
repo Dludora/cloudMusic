@@ -27,6 +27,7 @@ declare module '@vue/runtime-core' {
     NForm: typeof import('naive-ui')['NForm']
     NFormItemRow: typeof import('naive-ui')['NFormItemRow']
     NIcon: typeof import('naive-ui')['NIcon']
+    NImage: typeof import('naive-ui')['NImage']
     NInput: typeof import('naive-ui')['NInput']
     NMention: typeof import('naive-ui')['NMention']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
@@ -35,12 +36,14 @@ declare module '@vue/runtime-core' {
     NTabPane: typeof import('naive-ui')['NTabPane']
     NTabs: typeof import('naive-ui')['NTabs']
     PlayCard: typeof import('./src/components/Cards/playCard.vue')['default']
+    OneSong: typeof import('./src/components/List/OneSong.vue')['default']
     RecomCard: typeof import('./src/components/Cards/RecomCard.vue')['default']
     RepeatOne: typeof import('./src/components/icons/RepeatOne.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    ScrollConatiner: typeof import('./src/components/ScrollConatiner.vue')['default']
     ScrollContainer: typeof import('./src/components/ScrollContainer.vue')['default']
     SignUp: typeof import('./src/components/svg/SignUp.vue')['default']
+    SongLine: typeof import('./src/components/List/SongLine.vue')['default']
+    SongList: typeof import('./src/components/List/SongList.vue')['default']
   }
 }
