@@ -14,11 +14,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomePage,
-      redirect: '/broswer',
+      redirect: '/browser',
       children: [
         {
-          path: 'broswer',
-          name: 'broswer',
+          path: 'browser',
+          name: 'browser',
           component: () => import('../views/Browsers/Browser.vue')
         },
         {

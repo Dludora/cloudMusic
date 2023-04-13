@@ -12,3 +12,11 @@ export type newMusic = {
     author: string;
     imgUrl: string;
 }
+
+export type Audio = {
+    isPlaying: boolean;
+    audioUrl: string;
+    name: string;
+    author: string;
+    imgUrl: string;
+}

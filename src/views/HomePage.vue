@@ -7,16 +7,16 @@
             <span>MUSIC</span>
         </div>
         <div class="search">
-            <n-input placeholder="搜索">
+            <n-mention placeholder="搜索">
                 <template #prefix>
                     <n-icon>
                         <SearchSharp/>
                     </n-icon>
                 </template>
-            </n-input>
+            </n-mention>
         </div>
         <div class="nav">
-            <div>
+            <div @click="$router.push('/browser')">
                 <n-icon size="18">
                     <Grid/>
                 </n-icon>
@@ -37,10 +37,10 @@
                     <n-icon size="24">
                         <PlayBack/>
                     </n-icon>
-                    <n-icon size="36" v-if="playIng" @click="playIng = !playIng">
+                    <n-icon size="36" v-if="!playIng" @click="audioPlay">
                         <CaretForward/>
                     </n-icon>
-                    <n-icon size="36" v-else @click="playIng = !playIng">
+                    <n-icon size="36" v-else @click="audioPause">
                         <Pause/>
                     </n-icon>
                     <n-icon size="24">
@@ -58,7 +58,7 @@
                         <Shuffle/>
                     </n-icon>
                 </div>
-                <div class="player">
+                <div class="player" v-if="false">
                     <div class="music-block">
                         <n-icon size="28">
                             <MusicalNotes/>
@@ -68,6 +68,19 @@
                         <n-icon size="32">
                             <Cloud/>
                         </n-icon>
+                    </div>
+                </div>
+                <div class="player" v-else>
+                    <div class="music-block img-container">
+                        <img :src="audios[audioIndex].imgUrl" alt="">
+                    </div>
+                    <div class="music-display playing">
+                        <div id="title">{{ audios[audioIndex].name }}</div>
+                        <div id="author">{{ audios[audioIndex].author }}</div>
+                        <span id="audio-progress">{{ strProcess }}</span>
+                        <span id="duration">{{ strDuration }}</span>
+                        <n-slider :min="0" dir="ltr" role="slider" aria-label="播放速度" :tooltip="false"
+                                  v-model:value="audioProgress" id="progress"/>
                     </div>
                 </div>
                 <div class="voice">
@@ -118,9 +131,9 @@
             <router-view class="content"/>
         </n-scrollbar>
     </div>
-    <n-drawer v-model:show="showList" :width="250">
+    <n-drawer v-model:show="showList" width="20rem">
         <n-drawer-content title="待播清单">
-
+            <PlayCard v-for="i in 5"/>
         </n-drawer-content>
     </n-drawer>
 </template>
@@ -128,18 +141,58 @@
 <script setup lang="ts">
 import {Cloud, SearchSharp, Grid, Person, MusicalNotes, PersonCircle} from '@vicons/ionicons5'
 import {CaretForward, Pause, PlayForward, PlayBack} from '@vicons/ionicons5'
-import {ReorderThree, Repeat, List, Shuffle} from '@vicons/ionicons5'
+import {Repeat, List, Shuffle} from '@vicons/ionicons5'
 import RepeatOne from "@/components/icons/RepeatOne.vue"
-import Recorder from "@/components/icons/IconRecorder.vue"
 import type {Ref} from "vue"
-import {computed, ref} from "vue"
+import {computed, reactive, ref} from "vue"
+import PlayCard from "@/components/Cards/playCard.vue";
+import type {Audio} from "@/types/broswer";
+import {faker} from "@faker-js/faker";
 
 const playIng: Ref<boolean> = ref(false)
 
 // 调节播放顺序, 0是顺序，1是单循环，2是乱序
 const playSeq: Ref<number> = ref(0)
-
-
+// 音乐播放index
+const audioIndex = ref(0)
+// 音乐播放进度
+const audioProgress = ref<number>(0)
+const audioDuration = ref<number>(0)
+// 音频文件列表
+const audios = reactive<Audio[]>([
+    {
+        imgUrl: faker.image.imageUrl(),
+        audioUrl: "http://soundbible.com/mp3/muscle-car-daniel_simon.mp3",
+        author: faker.name.fullName(),
+        name: faker.music.songName(),
+        isPlaying: false
+    }
+])
+const audioPlay = () => {
+    let audio = new Audio(audios[audioIndex.value].audioUrl)
+    audio.play()
+    playIng.value = !playIng.value
+    audio.addEventListener('loadedmetadata', () => {
+        audioDuration.value = Math.round(audio.duration)
+    })
+}
+const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+    return `${minutes}:${formattedSeconds}`;
+}
+const strDuration = computed(() => {
+    return formatTime(audioDuration.value)
+})
+const strProcess = computed(() => {
+    return formatTime(Math.round(audioProgress.value / 100 * audioDuration.value))
+})
+const audioPause = () => {
+    let audio = new Audio(audios[audioIndex.value].audioUrl)
+    audio.pause()
+    playIng.value = !playIng.value
+}
 // 调节音量
 const volume: Ref<number> = ref(50)
 const volumeNone = computed(() => {
@@ -328,14 +381,76 @@ const showList: Ref<boolean> = ref(false)
         .music-display {
           min-width: 400px;
           background: rgba(89, 107, 117, 0.3);
+          position: relative;
+
+          &.playing {
+            flex-direction: column;
+            color: $cloud-3-hex;
+
+            #title {
+              margin-top: 4px;
+              font-size: 1rem;
+              height: 16px;
+              line-height: 16px;
+            }
+
+            #author {
+              font-weight: 600;
+
+              &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+              }
+            }
+
+            #audio-progress {
+              position: absolute;
+              left: 3px;
+              bottom: 2px;
+            }
+
+            #duration {
+              @extend #audio-progress;
+              left: auto;
+              right: 3px;
+            }
+
+
+            .n-slider {
+
+              :deep(.n-slider-handle) {
+                width: 6px;
+                height: 6px;
+              }
+
+              justify-content: end;
+              margin-bottom: 2px;
+            }
+          }
 
           display: flex;
           align-items: center;
           justify-content: center;
 
+          #progress {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 3px;
+            display: block;
+            border: 0;
+            cursor: pointer;
+            z-index: 100;
+
+          }
+
           .n-icon {
             color: rgba(89, 107, 117, 0.7);
           }
+        }
+
+        .img-container {
+          @include image-container;
         }
       }
 
