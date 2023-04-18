@@ -10,13 +10,13 @@
 
 <script setup lang="ts">
 import {MusicCard} from "@/components/Cards"
-import type {newMusic} from "@/types/broswer";
+import type {MusicList} from "@/types/broswer";
 import {faker} from "@faker-js/faker";
 import {useRoute, useRouter} from "vue-router";
 
 const route = useRoute()
 const router = useRouter()
-const newMusicCards: newMusic[] = [
+const newMusicCards: MusicList[] = [
     {
         id: Number(faker.random.numeric()),
         title: faker.music.songName(),

@@ -16,7 +16,7 @@
             </n-mention>
         </div>
         <div class="nav">
-            <div @click="$router.push('/browser')">
+            <div @click="$router.push('/browser')" :class="{'active': $route.name==='browser'}">
                 <n-icon size="18">
                     <Grid/>
                 </n-icon>
@@ -149,6 +149,9 @@ import PlayCard from "@/components/Cards/playCard.vue";
 import type {Audio} from "@/types/broswer";
 import {faker} from "@faker-js/faker";
 
+// 导航栏高亮
+
+
 const playIng: Ref<boolean> = ref(false)
 
 // 调节播放顺序, 0是顺序，1是单循环，2是乱序
@@ -276,6 +279,10 @@ const showList: Ref<boolean> = ref(false)
       font-weight: 600;
       border-radius: 10px;
       width: 100%;
+
+      &.active {
+        background-color: rgba(89, 107, 117, 0.3);
+      }
     }
 
     div:hover {

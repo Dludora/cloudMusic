@@ -43,7 +43,7 @@
 import {faker} from "@faker-js/faker"
 import {RecomCard, MusicCard} from "@/components/Cards"
 import ScrollContainer from "@/components/ScrollContainer.vue"
-import type {newMusic, Recommend} from '@/types/broswer'
+import type {MusicList, Recommend} from '@/types/broswer'
 import {ChevronForwardOutline} from '@vicons/ionicons5'
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router"
@@ -87,7 +87,7 @@ const recomCards: Recommend[] = [
         authors: [faker.name.fullName(), faker.name.fullName()]
     },
 ]
-const newMusicCards: newMusic[] = [
+const newMusicCards: MusicList[] = [
     {
         id: Number(faker.random.numeric()),
         title: faker.music.songName(),

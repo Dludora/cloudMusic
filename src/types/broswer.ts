@@ -6,7 +6,7 @@ export type Recommend = {
     link: string;
 }
 
-export type newMusic = {
+export type MusicList = {
     id: number;
     title: string;
     author: string;
@@ -18,5 +18,13 @@ export type Audio = {
     audioUrl: string;
     name: string;
     author: string;
+    imgUrl: string;
+}
+
+export type Music = {
+    id: number;
+    songName: string;
+    author: string;
+    audioUrl: string;
     imgUrl: string;
 }
